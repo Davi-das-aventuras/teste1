@@ -1,0 +1,50 @@
+blackjack em python
+
+
+import random
+
+baralho = []
+naipes = ['♠', '♡', '♢', '♣']
+valores = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+
+for naipe in naipes:
+    for valor in valores:
+        baralho.append(valor + naipe)
+
+random.shuffle(baralho)
+
+mao_jogador = [baralho.pop(), baralho.pop()]
+mao_dealer = [baralho.pop(), baralho.pop()]
+
+while True:
+    print("Sua mão:", mao_jogador)
+    print("Pontuação:", sum([int(carta[:-1]) if carta[:-1].isdigit() else 10 for carta in mao_jogador]))
+
+    if sum([int(carta[:-1]) if carta[:-1].isdigit() else 10 for carta in mao_jogador]) == 21:
+        print("Você ganhou com blackjack!")
+        break
+    elif sum([int(carta[:-1]) if carta[:-1].isdigit() else 10 for carta in mao_jogador]) > 21:
+        print("Você estourou! Perdeu.")
+        break
+
+    opcao = input("Deseja puxar mais uma carta? (s/n): ")
+
+    if opcao.lower() == 's':
+        mao_jogador.append(baralho.pop())
+    else:
+        while sum([int(carta[:-1]) if carta[:-1].isdigit() else 10 for carta in mao_dealer]) < 17:
+            mao_dealer.append(baralho.pop())
+        print("Sua mão:", mao_jogador)
+        print("Pontuação:", sum([int(carta[:-1]) if carta[:-1].isdigit() else 10 for carta in mao_jogador]))
+        print("Mão do dealer:", mao_dealer)
+        print("Pontuação do dealer:", sum([int(carta[:-1]) if carta[:-1].isdigit() else 10 for carta in mao_dealer]))
+
+        if sum([int(carta[:-1]) if carta[:-1].isdigit() else 10 for carta in mao_dealer]) > 21:
+            print("O dealer estourou! Você ganhou!")
+        elif sum([int(carta[:-1]) if carta[:-1].isdigit() else 10 for carta in mao_jogador]) > sum([int(carta[:-1]) if carta[:-1].isdigit() else 10 for carta in mao_dealer]):
+            print("Você ganhou!")
+        elif sum([int(carta[:-1]) if carta[:-1].isdigit() else 10 for carta in mao_jogador]) < sum([int(carta[:-1]) if carta[:-1].isdigit() else 10 for carta in mao_dealer]):
+            print("Você perdeu.")
+        else:
+            print("Empate.")
+        break
